@@ -1,0 +1,166 @@
+
+
+Meteor.startup(function () {
+
+
+   $( "#mapCanvas" ).gmap3({
+
+      map:{
+         options:{
+            center:[46.578498,2.457275],
+            zoom: 5
+         },
+
+         events:{
+            click:
+               function(map, event){
+                  alert(event.latLng);
+
+               }
+         }
+
+      },
+
+   });
+
+
+   var map=$('#mapCanvas').gmap3({action:'get',name:'map'});
+  google.maps.event.addListener(map, 'click', function(event) {
+    var myLatLng = event.latLng;
+    var lat = myLatLng.lat();
+    var lng = myLatLng.lng();
+
+      alert(lat);
+   });
+
+   $("#draggable").draggable();
+   // increase the default animation speed to exaggerate the effect
+   $.fx.speeds._default = 1000;
+   $( "#btn1_dialogDiv" ).dialog({
+      autoOpen: false,
+      show: "blind",
+      hide: "explode"
+   });
+   $( "#btns_Frame" ).height(500).width(150).position({
+      my: "right center",
+      at: "right-50 center",
+      of: "#mapCanvas"
+   });
+
+   var ddBtn = 1/5 * $( "#btns_Frame" ).height();
+   var btnHeight = 40, btnWidth = 80;
+
+   $( "#btn1" ).height(btnHeight).width(btnWidth).position({
+      my: "center center",
+      at: "center top+100",
+      of: "#btns_Frame"
+   });
+
+   $( "#btn2" ).height(btnHeight).width(btnWidth).position({
+      my: "center center",
+      at: "center top+200",
+      of: "#btns_Frame"
+   });
+   $( "#btn3" ).height(btnHeight).width(btnWidth).position({
+      my: "center center",
+      at: "center top+300",
+      of: "#btns_Frame"
+   });
+   $( "#btn4" ).height(btnHeight).width(btnWidth).position({
+      my: "center center",
+      at: "center top+400",
+      of: "#btns_Frame"
+   });
+
+
+   //select all the a tag with name equal to modal
+    $('a[name=modal]').click(function(e) {
+        //Cancel the link behavior
+        e.preventDefault();
+        //Get the A tag
+        var id = $(this).attr('href');
+
+        //Get the screen height and width
+        var maskHeight = $(document).height();
+        var maskWidth = $(window).width();
+
+        //Set height and width to mask to fill up the whole screen
+        $('#mask').css({'width':maskWidth,'height':maskHeight});
+
+        //transition effect
+        $('#mask').fadeIn(1000);
+        $('#mask').fadeTo("slow",0.8);
+
+        //Get the window height and width
+        var winH = $(window).height();
+        var winW = $(window).width();
+
+        //Set the popup window to center
+        $(id).css('top',  winH/2-$(id).height()/2);
+        $(id).css('left', winW/2-$(id).width()/2);
+
+        //transition effect
+        $(id).fadeIn(2000);
+
+    });
+
+    //if close button is clicked
+    $('.window .close').click(function (e) {
+        //Cancel the link behavior
+        e.preventDefault();
+        $('#mask, .window').hide();
+    });
+
+    //if mask is clicked
+    $('#mask').click(function () {
+        $(this).hide();
+        $('.window').hide();
+    });
+
+
+
+var openCreateDialog = function () {
+  Session.set("showCreateDialog", true);
+}
+
+
+});
+
+
+
+// Use jquery to get the position clicked relative to the map element.
+var coordsRelativeToElement = function (element, event) {
+   var offset = $(element).offset();
+   var x = event.pageX - offset.left;
+   var y = event.pageY - offset.top;
+   return { x: x, y: y };
+}
+
+/*
+Template.map.events({
+   'dblclick .map': function (event, template) {
+      openCreateDialog();
+   }
+});
+
+*/
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Create Party dialog
+
+
+
+Template.page.showCreateDialog = function () {
+  return Session.get("showCreateDialog");
+}
+
+Template.createDialog.events({
+
+
+  'click .cancel': function () {
+    Session.set("showCreateDialog", false);
+
+  }
+});

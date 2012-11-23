@@ -1,0 +1,20 @@
+<template name="header">
+
+   <header class="navbar navbar-fixed-top" >
+     <div class="navbar-inner">
+       <div class="container">
+
+			   <div class="nav pull-left">
+               <h2>Be Here</h2>
+			   </div>
+
+           <ul class="nav pull-right">
+             <li><h2>geoAddress</h2></li>
+
+           </ul>
+         </nav>
+       </div>
+     </div>
+   </header>
+
+</template>
